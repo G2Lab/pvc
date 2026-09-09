@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pvc"
+version = "0.1.0"
+description = "Privacy-preserving variant genotyping with upstream CrypTen"
+readme = "README.md"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+    "torch==1.13.1",
+    "torchvision==0.14.1",
+    "numpy>=1.23,<2",
+    "omegaconf>=2.0.6,<3",
+    "onnx>=1.7,<1.17",
+    "pandas>=1.2,<3",
+    "pyyaml>=5.3.1",
+    "tensorboard>=2,<3",
+    "future>=0.18",
+    "scipy>=1.6,<1.16",
+    "scikit-learn>=1,<1.8",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+pvc = "pvc.genotype.pvc_genotype:main"
+
+[tool.setuptools]
+include-package-data = false
+license-files = ["src/crypto/CrypTen/LICENSE"]
+
+[tool.setuptools.data-files]
+"share/pvc" = ["src/crypto/CrypTen/UPSTREAM.json"]
+
+[tool.setuptools.packages.find]
+where = ["src", "src/crypto/CrypTen"]
+include = ["pvc", "pvc.*", "pangenie", "pangenie.*", "gatk", "gatk.*", "crypten", "crypten.*", "configs"]
+
+[tool.setuptools.package-data]
+configs = ["*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
